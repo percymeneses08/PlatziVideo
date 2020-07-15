@@ -48,13 +48,15 @@
       width: 50,
       height: 50
     })
-    // $featuringContainer.append($loader)
-    $featuringContainer.innerHTML = $loader
-    debugger
+    // Aquí no se puede usar innerHTML porque no es un templateLiteral para pasarlo como texto, sino que en cambio es un tag img creado con document.createElement
+    // $featuringContainer.innerHTML = $loader
+    $featuringContainer.append($loader)
 
+    // usamos el FormData para que obtener datos (u otras cosas) de un formulario HTML sea más sencillo
     const data = new FormData($form)
     const peli = await getData(`${BASE_API}list_movies.json?limit=1&query_term=${data.get('name')}`)
     const HTMLString = featuringTemplate(peli.data.movies[0])
+    // Aquí se puede usar innerHTML porque es un templateLiteral, entonces si se le puede agregar como texto, para que se renderice como un documento HTML
     $featuringContainer.innerHTML = HTMLString
   })
 
